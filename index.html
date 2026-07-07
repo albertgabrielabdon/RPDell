@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RPDell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+  <div id="auth-screen">
+    <h1>RPDell</h1>
+    <div class="tabs">
+      <button class="tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="tab" id="tab-register" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <form id="form-login" onsubmit="handleAuthSubmit(event, 'login')">
+      <div class="form-group">
+        <label>EMAIL ADDRESS</label>
+        <input type="email" id="login-email" required placeholder="dabble@studios.com">
+      </div>
+      <div class="form-group">
+        <label>PASSWORD</label>
+        <input type="password" id="login-pass" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn-submit" id="btn-login-submit">Join</button>
+    </form>
+
+    <form id="form-register" class="hidden" onsubmit="handleAuthSubmit(event, 'register')">
+      <div class="form-group">
+        <label>USERNAME</label>
+        <input type="text" id="reg-username" required placeholder="Username">
+      </div>
+      <div class="form-group">
+        <label>EMAIL ADDRESS</label>
+        <input type="email" id="reg-email" required placeholder="dabble@studios.com">
+      </div>
+      <div class="form-group">
+        <label>PASSWORD</label>
+        <input type="password" id="reg-pass" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn-submit" id="btn-register-submit">Create Account</button>
+    </form>
+  </div>
+
+  <div id="app-shell" class="hidden">
+    <div class="topbar">
+      <div class="user-profile">
+        <div class="user-info">
+          <h2 id="user-display-name">Aristotle</h2>
+          <span class="rank-badge" id="user-display-rank">Peashooter</span>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <label>CURRENT LEVEL</label>
+          <div class="val" id="stat-level">1</div>
+        </div>
+        <div class="stat-card">
+          <label>STREAK RECORD</label>
+          <div class="val" id="stat-streak">0d</div>
+        </div>
+        <div class="stat-card">
+          <label>TOKENS BALANCE</label>
+          <div class="val" id="stat-tokens">0</div>
+        </div>
+        <div class="stat-card">
+          <label>ACCUMULATED XP</label>
+          <div class="val" id="stat-total-xp">0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xp-container">
+      <div class="xp-meta">
+        <span>CORE LEVEL PROGRESSION</span>
+        <span id="xp-fraction">0 / 100 XP</span>
+      </div>
+      <div class="xp-bar"><div class="xp-fill" id="xp-fill"></div></div>
+    </div>
+
+    <div class="view-selector">
+      <button class="view-btn active" id="btn-view-quests" onclick="switchView('quests')">Quests</button>
+      <button class="view-btn" id="btn-view-leaderboard" onclick="switchView('leaderboard')">Leaderboard</button>
+      <button class="view-btn" id="btn-view-feed" onclick="switchView('feed')">Chat</button>
+    </div>
+
+    <div id="view-quests">
+      <div class="controls-bar">
+        <h3 class="section-title">Active Quests</h3>
+        <select id="filter-category" onchange="filterQuests()" style="width: auto; padding: 8px 16px;">
+          <option value="ALL">All Categories</option>
+          <option value="Fitness">Fitness</option>
+          <option value="Health">Health</option>
+          <option value="Learning">Learning</option>
+          <option value="Coding">Coding</option>
+          <option value="Mindfulness">Mindfulness</option>
+          <option value="Lifestyle">Lifestyle</option>
+          <option value="Creative">Creative</option>
+          <option value="Social">Social</option>
+          <option value="Faith">Faith</option>
+        </select>
+      </div>
+      <div id="quest-list-container"></div>
+    </div>
+
+    <div id="view-leaderboard" class="hidden">
+      <div class="controls-bar">
+        <h3 class="section-title">Global Standings</h3>
+        <select id="leaderboard-metric" onchange="loadLeaderboard()" style="width: auto; padding: 8px 16px;">
+          <option value="all-time">All-Time</option>
+          <option value="weekly">Weekly</option>
+        </select>
+      </div>
+      <div class="leaderboard-list" id="leaderboard-container"></div>
+    </div>
+
+    <div id="view-feed" class="hidden">
+      <h3 class="section-title" style="margin-bottom:16px;">Chat with Friends</h3>
+      <div class="chat-window">
+        <div id="chat-messages-area" class="chat-messages-area"></div>
+        <div class="chat-footer">
+          <textarea id="chat-input-full" placeholder="Dabble is pretty cool..." onkeydown="handleChatKeyDown(event)"></textarea>
+          <button class="chat-send-btn" id="btn-chat-send" onclick="window.handleChatSend()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="animations.js">
+  </script>
+</body>
+</html>
